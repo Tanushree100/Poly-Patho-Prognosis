@@ -131,21 +131,6 @@ if selected == 'Diabetes Prediction':
     diab_diagnosis = ''
 
     # creating a button for Prediction
-    '''submit_button = st.button("Diabetes Test Result")
-    if submit_button:
-
-        user_input = [HighBP,HighChol,CholCheck,BMI, Smoker, Stroke,HeartDiseaseorAttack,PhysActivity,Fruits,Veggies,HvyAlcoholConsump,AnyHealthcare, NoDocbcCost,GenHlth,MentHlth,PhysHlth,DiffWalk,Sex,Age,Education,Income]
-        
-        user_input = [float(x) for x in user_input]
-
-        diab_prediction = diabetes_model.predict([user_input])
-
-        if diab_prediction[0] == 1:
-            diab_diagnosis = 'The person has a high risk of having Diabetes'
-        else:
-            diab_diagnosis = 'Congratulations..... The person does not have Diabetes'
-
-    st.success(diab_diagnosis)'''
 
     submit_button = st.button("Diabetes Test Result")
     if submit_button:
