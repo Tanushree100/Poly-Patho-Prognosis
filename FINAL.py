@@ -148,7 +148,7 @@ if selected == 'Diabetes Prediction':
         print("User input after conversion:", user_input)
     
         print("Type of user input:", type(user_input))
-        print("Type of input that the model expects:", diabetes_model.feature_types_)
+        print("Feature names used in the model:", diabetes_model.get_booster().feature_names)
     
         diab_prediction = diabetes_model.predict([user_input])
     
