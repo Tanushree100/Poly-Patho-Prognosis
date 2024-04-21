@@ -136,13 +136,9 @@ if selected == 'Diabetes Prediction':
 
         user_input = [HighBP,HighChol,CholCheck,BMI, Smoker, Stroke,HeartDiseaseorAttack,PhysActivity,Fruits,Veggies,HvyAlcoholConsump,AnyHealthcare, NoDocbcCost,GenHlth,MentHlth,PhysHlth,DiffWalk,Sex,Age,Education,Income]
         
-        try:
-            user_input = [float(x) for x in user_input]
-        except ValueError as e:
-            st.error(f"Error converting input to float: {e}")
-            st.stop()
+        user_input = [float(x) for x in user_input]
 
-        diab_prediction = diabetes_model.predict([user_input])
+        heart_prediction = diabetes_model.predict([user_input])
 
         if diab_prediction[0] == 1:
             diab_diagnosis = 'The person has a high risk of having Diabetes'
