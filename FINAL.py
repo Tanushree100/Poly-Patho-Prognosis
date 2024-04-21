@@ -135,10 +135,16 @@ if selected == 'Diabetes Prediction':
     if submit_button:
 
         user_input = [HighBP,HighChol,CholCheck,BMI, Smoker, Stroke,HeartDiseaseorAttack,PhysActivity,Fruits,Veggies,HvyAlcoholConsump,AnyHealthcare, NoDocbcCost,GenHlth,MentHlth,PhysHlth,DiffWalk,Sex,Age,Education,Income]
-
-        user_input = [float(x) for x in user_input]
+        try:
+            user_input = [float(x) for x in user_input]
+        except ValueError:
+            st.error("Please enter valid numerical values.")
+            st.stop()
 
         diab_prediction = diabetes_model.predict([user_input])
+        #user_input = [float(x) for x in user_input]
+
+        #diab_prediction = diabetes_model.predict([user_input])
 
         if diab_prediction[0] == 1:
             diab_diagnosis = 'The person has high risk of having Diabetes'
