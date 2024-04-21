@@ -134,7 +134,7 @@ if selected == 'Diabetes Prediction':
 
     submit_button = st.button("Diabetes Test Result")
     if submit_button:
-
+    
         user_input = [HighBP, HighChol, CholCheck, BMI, Smoker, Stroke, HeartDiseaseorAttack, PhysActivity, Fruits, Veggies, HvyAlcoholConsump, AnyHealthcare, NoDocbcCost, GenHlth, MentHlth, PhysHlth, DiffWalk, Sex, Age, Education, Income]
     
         print("User input before conversion:", user_input)
@@ -144,8 +144,11 @@ if selected == 'Diabetes Prediction':
         except ValueError as e:
             st.error(f"Error converting input to float: {e}")
             st.stop()
-
+    
         print("User input after conversion:", user_input)
+    
+        print("Type of user input:", type(user_input))
+        print("Type of input that the model expects:", diabetes_model.feature_types_)
     
         diab_prediction = diabetes_model.predict([user_input])
     
@@ -153,7 +156,7 @@ if selected == 'Diabetes Prediction':
             diab_diagnosis = 'The person has a high risk of having Diabetes'
         else:
             diab_diagnosis = 'Congratulations..... The person does not have Diabetes'
-
+    
     st.success(diab_diagnosis)
   
     csv_file_path = "Diabetes Data Collection.csv"
