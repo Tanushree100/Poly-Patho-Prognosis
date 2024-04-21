@@ -1,6 +1,7 @@
 import os
 import pickle
 import streamlit as st
+import xgboost as xgb
 import pandas as pd
 from streamlit_option_menu import option_menu
 
