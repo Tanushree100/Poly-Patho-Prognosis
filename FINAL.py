@@ -148,9 +148,11 @@ if selected == 'Diabetes Prediction':
         print("User input after conversion:", user_input)
     
         print("Type of user input:", type(user_input))
-        print("Feature names used in the model:", diabetes_model.feature_names)
     
-        diab_prediction = diabetes_model.predict([user_input])
+        dmatrix = xgb.DMatrix([user_input], feature_names=diabetes_model.get_booster().feature_names)
+        print("Feature names used in the model:", dmatrix.feature_names)
+    
+        diab_prediction = diabetes_model.predict(dmatrix)
     
         if diab_prediction[0] == 1:
             diab_diagnosis = 'The person has a high risk of having Diabetes'
