@@ -15,7 +15,7 @@ working_dir = os.path.dirname(os.path.abspath(__file__))
 
 # loading the saved models
 
-diabetes_model = pickle.load(open('diabetes_model.sav', 'rb'))
+diabetes_model = pickle.load(open('diabetes_nb_model.sav', 'rb'))
 
 heart_disease_model = pickle.load(open('heartdisease_model.sav', 'rb'))
 
@@ -137,7 +137,7 @@ if selected == 'Diabetes Prediction':
 
         user_input = [float(x) for x in user_input]
 
-        diab_prediction = diabetes_model.predict([user_input])
+        diab_prediction = diabetes_nb_model.predict([user_input])
 
         if diab_prediction[0] == 1:
             diab_diagnosis = 'The person has high risk of having Diabetes'
