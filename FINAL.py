@@ -162,100 +162,112 @@ if selected == 'Diabetes Prediction':
         
         
 # Heart Disease Prediction Page
-if selected == 'Heart Attack Prediction':
+  import sqlite3
+  
+    # Function to create a background image
     def add_bg_from_url():
         st.markdown(
-             f"""
-             <style>
-             .stApp {{
-                 background-image: url("https://png.pngtree.com/background/20230520/original/pngtree-3d-illustration-of-a-human-heart-in-bluish-light-picture-image_2676710.jpg");
-                 background-attachment: fixed;
-                 background-size: cover
-             }}
-             </style>
-             """,
-             unsafe_allow_html=True
-         )
-
+            f"""
+            <style>
+            .stApp {{
+                background-image: url("https://png.pngtree.com/background/20230520/original/pngtree-3d-illustration-of-a-human-heart-in-bluish-light-picture-image_2676710.jpg");
+                background-attachment: fixed;
+                background-size: cover
+            }}
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+    
+    # Connect to SQLite database
+    conn = sqlite3.connect('heart_attack_data.db')
+    c = conn.cursor()
+    
+    # Create a table to store heart attack data if it does not exist
+    c.execute('''CREATE TABLE IF NOT EXISTS heart_attack_data 
+                 (age REAL, sex REAL, cp REAL, trestbps REAL, chol REAL, fbs REAL, 
+                 restecg REAL, thalach REAL, exang REAL, oldpeak REAL, slope REAL, 
+                 ca REAL, thal REAL, heart_diagnosis TEXT)''')
+    
+    # Function to insert data into the database
+    def insert_data(age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, heart_diagnosis):
+        c.execute('''INSERT INTO heart_attack_data 
+                     (age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, heart_diagnosis)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                  (age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, heart_diagnosis))
+        conn.commit()
+    
+    # Set up background image
     add_bg_from_url()    
     # page title
-    
     st.title('Heart Attack Prediction')
-
+    
     col1, col2, col3 = st.columns(3)
-
+    
     with col1:
         age = st.text_input('Age')
-
+    
     with col2:
         sex = st.text_input('Sex')
-
+    
     with col3:
         cp = st.text_input('Chest Pain types')
-
+    
     with col1:
         trestbps = st.text_input('Resting Blood Pressure')
-
+    
     with col2:
         chol = st.text_input('Serum Cholestoral in mg/dl')
-
+    
     with col3:
         fbs = st.text_input('Fasting Blood Sugar > 120 mg/dl')
-
+    
     with col1:
         restecg = st.text_input('Resting Electrocardiographic results')
-
+    
     with col2:
         thalach = st.text_input('Maximum Heart Rate achieved')
-
+    
     with col3:
         exang = st.text_input('Exercise Induced Angina')
-
+    
     with col1:
         oldpeak = st.text_input('ST depression induced by exercise')
-
+    
     with col2:
         slope = st.text_input('Slope of the peak exercise ST segment')
-
+    
     with col3:
         ca = st.text_input('Major vessels colored by flourosopy')
-
+    
     with col1:
         thal = st.text_input('thal: 0 = normal; 1 = fixed defect; 2 = reversable defect')
-
+    
     # code for Prediction
-    
     heart_diagnosis = ''
-
-    # creating a button for Prediction
-
-    submit_button = st.button("Heart Attack Result")
-    if submit_button:
-
-        user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
-
-        user_input = [float(x) for x in user_input]
-
-        heart_prediction = heart_disease_model.predict([user_input])
-
-        if heart_prediction[0] == 1:
-            heart_diagnosis = 'The person has high risk of having a Cardiac Arrest'
-        else:
-            heart_diagnosis = 'Congratulations..... The person dont have a risk of having a Cardiac Arrest'
-
-    st.success(heart_diagnosis)
     
-    #Data Collection
-    csv_file_path = "Heart Attack Data Collection.csv"
-    data = pd.DataFrame(columns=["age", "sex", "cp", "trestbps", "chol", "fbs", "restecg", "thalach", "exang", "oldpeak", "slope", "ca", "thal"])
-    if os.path.exists(csv_file_path):
-        data = pd.read_csv(csv_file_path)
+    # creating a button for Prediction
+    submit_button = st.button("Heart Attack Result")
+    
     if submit_button:
-        new_row = {"age":age, "sex":sex, "cp":cp, "trestbps":trestbps, "chol":chol, "fbs":fbs, "restecg":restecg, "thalach":thalach, "exang":exang, "oldpeak":oldpeak, "slope":slope, "ca":ca, "thal":thal }
-        data = pd.concat([data, pd.DataFrame([new_row])], ignore_index=True)
-        data.to_csv(csv_file_path, index=False)
-        #if st.button('Privacy Policy'):
-        st.write("YOUR DATA HAS BEEN SAVED. YOUR DATA IS SAFE WITH US AND ONLY MIGHT BE USED FOR RESEARCH PURPOSE. WE ARE HIGHLY GREATFUL FOR YOUR AMAZING CONTRIBUTION TOWARDS MANKIND.")
+    
+        user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+    
+        user_input = [float(x) for x in user_input]
+    
+        heart_prediction = heart_disease_model.predict([user_input])
+    
+        if heart_prediction[0] == 1:
+            heart_diagnosis = 'The person has a high risk of having a Cardiac Arrest'
+        else:
+            heart_diagnosis = 'Congratulations..... The person does not have a risk of having a Cardiac Arrest'
+    
+        st.success(heart_diagnosis)
+    
+        # Insert data into the database
+        insert_data(age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal, heart_diagnosis)
+    
+        st.write("YOUR DATA HAS BEEN SAVED. YOUR DATA IS SAFE WITH US AND ONLY MIGHT BE USED FOR RESEARCH PURPOSE. WE ARE HIGHLY GRATEFUL FOR YOUR AMAZING CONTRIBUTION TOWARDS MANKIND.")
         st.write("THANK YOU & STAY HEALTHY!!")
         
         
