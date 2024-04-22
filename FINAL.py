@@ -233,32 +233,39 @@ if selected == 'Heart Attack Prediction':
 
     submit_button = st.button("Heart Attack Result")
 
-    if submit_button:
-        user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
-        user_input = [float(x) for x in user_input]
-    
-        heart_prediction = heart_disease_model.predict([user_input])
-    
-        if heart_prediction[0] == 1:
-            heart_diagnosis = 'The person has a high risk of having a Cardiac Arrest'
-        else:
-            heart_diagnosis = 'Congratulations... The person does not have a risk of having a Cardiac Arrest'
-    
-        st.success(heart_diagnosis)
-    
-        # Data Collection
-        csv_file_path = "Heart Attack Data Collection.csv"
-        if os.path.exists(csv_file_path):
-            data = pd.read_csv(csv_file_path)
-        else:
-            data = pd.DataFrame(columns=["age", "sex", "cp", "trestbps", "chol", "fbs", "restecg", "thalach", "exang", "oldpeak", "slope", "ca", "thal"])
-    
-        new_row = {"age": age, "sex": sex, "cp": cp, "trestbps": trestbps, "chol": chol, "fbs": fbs, "restecg": restecg, "thalach": thalach, "exang": exang, "oldpeak": oldpeak, "slope": slope, "ca": ca, "thal": thal}
-        data = pd.concat([data, pd.DataFrame([new_row])], ignore_index=True)
-        data.to_csv(csv_file_path, index=False)
-    
-        st.write("YOUR DATA HAS BEEN SAVED. YOUR DATA IS SAFE WITH US AND ONLY MIGHT BE USED FOR RESEARCH PURPOSE. WE ARE HIGHLY GRATEFUL FOR YOUR AMAZING CONTRIBUTION TOWARDS MANKIND.")
-        st.write("THANK YOU & STAY HEALTHY!!")
+    submit_button = st.button("Heart Attack Result")
+
+if submit_button:
+    user_input = [age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]
+    user_input = [float(x) for x in user_input]
+
+    heart_prediction = heart_disease_model.predict([user_input])
+
+    if heart_prediction[0] == 1:
+        heart_diagnosis = 'The person has a high risk of having a Cardiac Arrest'
+    else:
+        heart_diagnosis = 'Congratulations... The person does not have a risk of having a Cardiac Arrest'
+
+    st.success(heart_diagnosis)
+
+    # Data Collection
+    csv_file_path = "Heart Attack Data Collection.csv"
+    if os.path.exists(csv_file_path):
+        data = pd.read_csv(csv_file_path)
+    else:
+        data = pd.DataFrame(columns=["age", "sex", "cp", "trestbps", "chol", "fbs", "restecg", "thalach", "exang", "oldpeak", "slope", "ca", "thal"])
+
+    print("Before appending data:", data.head())  # Check the current data before appending new data
+
+    new_row = {"age": age, "sex": sex, "cp": cp, "trestbps": trestbps, "chol": chol, "fbs": fbs, "restecg": restecg, "thalach": thalach, "exang": exang, "oldpeak": oldpeak, "slope": slope, "ca": ca, "thal": thal}
+    data = pd.concat([data, pd.DataFrame([new_row])], ignore_index=True)
+
+    print("After appending data:", data.head())  # Check the data after appending new data
+
+    data.to_csv(csv_file_path, index=False)
+
+    st.write("YOUR DATA HAS BEEN SAVED. YOUR DATA IS SAFE WITH US AND ONLY MIGHT BE USED FOR RESEARCH PURPOSE. WE ARE HIGHLY GRATEFUL FOR YOUR AMAZING CONTRIBUTION TOWARDS MANKIND.")
+    st.write("THANK YOU & STAY HEALTHY!!")
 
         
         
