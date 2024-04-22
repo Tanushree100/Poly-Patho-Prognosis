@@ -133,33 +133,33 @@ if selected == 'Diabetes Prediction':
     # creating a button for Prediction
 
     submit_button = st.button("Diabetes Test Result")
+
     if submit_button:
-
-        user_input = [HighBP,HighChol,CholCheck,BMI, Smoker, Stroke,HeartDiseaseorAttack,PhysActivity,Fruits,Veggies,HvyAlcoholConsump,AnyHealthcare, NoDocbcCost,GenHlth,MentHlth,PhysHlth,DiffWalk,Sex,Age,Education,Income]
-
+        user_input = [HighBP, HighChol, CholCheck, BMI, Smoker, Stroke, HeartDiseaseorAttack, PhysActivity, Fruits, Veggies, HvyAlcoholConsump, AnyHealthcare, NoDocbcCost, GenHlth, MentHlth, PhysHlth, DiffWalk, Sex, Age, Education, Income]
         user_input = [float(x) for x in user_input]
-
+    
         diab_prediction = diabetes_model.predict([user_input])
-
+    
         if diab_prediction[0] == 1:
             diab_diagnosis = 'The person has high risk of having Diabetes'
         else:
             diab_diagnosis = 'Congratulations..... The person does not have Diabetes'
-
-    st.success(diab_diagnosis)
-  
-    csv_file_path = "Diabetes Data Collection.csv"
-    data = pd.DataFrame(columns=["Diabetes_binary",	"HighBP", "HighChol", "CholCheck",	"BMI",	"Smoker",	"Stroke", "HeartDiseaseorAttack",	"PhysActivity", "Fruits",	"Veggies",	"HvyAlcoholConsump",	"AnyHealthcare",	"NoDocbcCost",	"GenHlth",	"MentHlth",	"PhysHlth",	"DiffWalk",	"Sex",	"Age",	"Education",	"Income"])
-    if os.path.exists(csv_file_path):
-        data = pd.read_csv(csv_file_path)
-    if submit_button:
-        new_row = {"Diabetes_binary": diab_prediction[0], "HighBP": HighBP,	"HighChol":HighChol, "CholCheck":CholCheck, "BMI":BMI,	"Smoker":Smoker, "Stroke":Stroke,	"HeartDiseaseorAttack":HeartDiseaseorAttack,	"PhysActivity":PhysActivity,	
-                   "Fruits":Fruits,	"Veggies":Veggies,	"HvyAlcoholConsump":HvyAlcoholConsump,	"AnyHealthcare":AnyHealthcare,	"NoDocbcCost":NoDocbcCost,	"GenHlth":GenHlth,	"MentHlth":MentHlth,	"PhysHlth":PhysHlth,	"DiffWalk":DiffWalk,	
-                   "Sex":Sex,	"Age":Age,	"Education":Education,	"Income":Income}
+    
+        st.success(diab_diagnosis)
+    
+        csv_file_path = "Diabetes Data Collection.csv"
+        data = pd.DataFrame(columns=["Diabetes_binary", "HighBP", "HighChol", "CholCheck", "BMI", "Smoker", "Stroke", "HeartDiseaseorAttack", "PhysActivity", "Fruits", "Veggies", "HvyAlcoholConsump", "AnyHealthcare", "NoDocbcCost", "GenHlth", "MentHlth", "PhysHlth", "DiffWalk", "Sex", "Age", "Education", "Income"])
+    
+        if os.path.exists(csv_file_path):
+            data = pd.read_csv(csv_file_path)
+    
+        new_row = {"Diabetes_binary": diab_prediction[0], "HighBP": HighBP, "HighChol": HighChol, "CholCheck": CholCheck, "BMI": BMI, "Smoker": Smoker, "Stroke": Stroke, "HeartDiseaseorAttack": HeartDiseaseorAttack, "PhysActivity": PhysActivity,
+                   "Fruits": Fruits, "Veggies": Veggies, "HvyAlcoholConsump": HvyAlcoholConsump, "AnyHealthcare": AnyHealthcare, "NoDocbcCost": NoDocbcCost, "GenHlth": GenHlth, "MentHlth": MentHlth, "PhysHlth": PhysHlth, "DiffWalk": DiffWalk,
+                   "Sex": Sex, "Age": Age, "Education": Education, "Income": Income}
         data = pd.concat([data, pd.DataFrame([new_row])], ignore_index=True)
         data.to_csv(csv_file_path, index=False)
-        #if st.button('Privacy Policy'):
-        st.write("YOUR DATA HAS BEEN SAVED. YOUR DATA IS SAFE WITH US AND ONLY MIGHT BE USED FOR RESEARCH PURPOSE. WE ARE HIGHLY GREATFUL FOR YOUR AMAZING CONTRIBUTION TOWARDS MANKIND.")
+    
+        st.write("YOUR DATA HAS BEEN SAVED. YOUR DATA IS SAFE WITH US AND ONLY MIGHT BE USED FOR RESEARCH PURPOSE. WE ARE HIGHLY GRATEFUL FOR YOUR AMAZING CONTRIBUTION TOWARDS MANKIND.")
         st.write("THANK YOU & STAY HEALTHY!!")
         
         
